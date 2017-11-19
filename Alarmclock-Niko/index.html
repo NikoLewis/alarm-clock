@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+
+	</head>
+
+	<body onload="startTime()">
+
+		<div id="txt" ></div>
+
+		<form>
+			<table>
+				<tr>
+				    <td> <!-- setting up radio buttons-->
+				   		<input type=radio name=alarmOnOff onClick="alarmOn()">On
+				    </td>
+				    <td>
+				    	<input type=radio name=alarmOnOff onClick="alarmOff()" checked>Off
+				    </td>  
+			  	</tr>
+
+			  	<tr>
+			  		<td>
+			  			Set Alarm Time
+			  		</td>
+				    <td>
+				    	<!-- setting up dropdown options to set alarm time-->
+				    	<select id=hour name=hourOpt onChange="alarmSet()" size=1> 
+							<option value="00">00</option>
+							<option value="01">01</option>
+							<option value="02">02</option>
+							<option value="03">03</option>
+							<option value="04">04</option>
+							<option value="05">05</option>
+							<option value="06">06</option>
+							<option value="07">07</option>
+							<option value="08">08</option>
+							<option value="09">09</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option selected value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+							<option value="17">17</option>
+							<option value="18">18</option>
+							<option value="19">19</option>
+							<option value="20">20</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+							<option value="23">23</option>
+							</option>
+						</select>
+
+						<select id=mins name=minOpt onChange="alarmSet()" size=1>
+							<option selected value="00">00
+							<option value="01">01</option>
+							<option value="02">02</option>
+							<option value="03">03</option>
+							<option value="04">04</option>
+							<option value="05">05</option>
+							<option value="06">06</option>
+							<option value="07">07</option>
+							<option value="08">08</option>
+							<option value="09">09</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+							<option value="17">17</option>
+							<option value="18">18</option>
+							<option value="19">19</option>
+							<option value="20">20</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+							<option value="23">23</option>
+							<option value="24">24</option>
+							<option value="25">25</option>
+							<option value="26">26</option>
+							<option value="27">27</option>
+							<option value="28">28</option>
+							<option value="29">29</option>
+							<option value="30">30</option>
+							<option value="31">31</option>
+							<option value="32">32</option>
+							<option value="33">33</option>
+							<option value="34">34</option>
+							<option value="35">35</option>
+							<option value="36">36</option>
+							<option value="37">37</option>
+							<option value="38">38</option>
+							<option value="39">39</option>
+							<option value="40">40</option>
+							<option value="41">41</option>
+							<option value="42">42</option>
+							<option value="43">43</option>
+							<option value="44">44</option>
+							<option value="45">45</option>
+							<option value="46">46</option>
+							<option value="47">47</option>
+							<option value="48">48</option>
+							<option value="49">49</option>
+							<option value="50">50</option>
+							<option value="51">51</option>
+							<option value="52">52</option>
+							<option value="53">53</option>
+							<option value="54">54</option>
+							<option value="55">55</option>
+							<option value="56">56</option>
+							<option value="57">57</option>
+							<option value="58">58</option>
+							<option value="59">59</option>
+							</option>
+						</select>
+					</td>
+			  	</tr>
+			</table>
+		</form>
+
+		
+		<script type="text/javascript">
+			var today= new Date();
+			console.log(today);
+			var alarmTime;
+			var toCompare;
+			var audioplaying = false;
+			var audio = new Audio('zombiealarm.mp3');
+
+			function checkTime(i) {
+				 // adds zero in front of numbers < 10
+			    if (i < 10) {i = "0" + i}; 
+			    return i;
+			}
+
+		    function startTime() {
+			    var today = new Date();
+			    var h = today.getHours();
+			    var m = today.getMinutes();
+			    var s = today.getSeconds();
+			    //initially was working towards converting military time to civilian time,
+			    // but decided to complete later due to time constraints
+			    // var ampm = h >= 12 ? ' PM' : ' AM';
+			     // passing minutes and seconds to checkTime()
+			    m = checkTime(m);
+			    s = checkTime(s);
+			    document.getElementById('txt').innerHTML= h + ":" + m + ":" + s;
+			    toCompare = h + ":" + m;
+		        var check = String(alarmTime) === String(toCompare)
+
+				    if (check) {
+				      audio.play();
+				      audioplaying = true;
+			    	}
+
+		    	var t = setTimeout(startTime, 1000);
+			}
+
+			function alarmSet() {
+			  hourNum = document.getElementById("hour");
+			  hValue = hourNum.options[hourNum.selectedIndex].value;
+			  minNum = document.getElementById("mins");
+			  mValue = minNum.options[minNum.selectedIndex].value;
+			  alarmTime = hValue + ":" + mValue;
+			  
+			}
+			// compares alarm time to actual time and if condition is met plays audio
+			function alarmOn() {
+				console.log("alarmTime = " + alarmTime + " | " + "toCompare = " + toCompare);
+				var check = String(alarmTime) === String(toCompare)
+				if (check) {
+				  audio.play();
+				  console.log("Comparison passed");    
+				}
+			}
+			// stops audio and forces page refresh so alarm is reusable
+			function alarmOff() {
+				audio.pause();
+				alarmTime= null;
+				location.reload(true);
+
+			}
+
+		</script>
+	</body>
+</html>
